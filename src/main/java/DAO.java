@@ -1,7 +1,4 @@
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,22 +63,27 @@ public class DAO {
             // Get a Connection to the database
             connection = DriverManager.getConnection("jdbc:oracle:thin:@//localhost:1521/XE", "SYSTEM", "1475963");
 
-            //System.out.println(connection.toString());
-
             //Select the data from the database
-            String sql = "SELECT * from USERS WHERE NAME = " + username;
-            Statement s = connection.createStatement();
-            s.executeQuery(sql);
-            rs = s.getResultSet();
+            PreparedStatement sql = connection.prepareStatement("SELECT * from USERS WHERE NAME = '" + username + "'");
+            rs = sql.executeQuery();
 
             if(!rs.next()) {
+                //select max id
+                PreparedStatement sqlMaxId = connection.prepareStatement("SELECT MAX(ID) from USERS");
+                ResultSet selectMaxId = sqlMaxId.executeQuery();
+
+                int maxId = 0;
+
+                if (selectMaxId.next()){
+                    maxId = selectMaxId.getInt("ID");
+                }
+
                 //Add records into USERS
-                String insert = "INSERT INTO USERS VALUES(1, '" + username + "')";
-                Statement s2 = connection.createStatement();
-                s2.executeUpdate(insert);
+                PreparedStatement insert = connection.prepareStatement("INSERT INTO USERS(ID, NAME) VALUES('"+(maxId+1)+"', '" + username + "')");
+                insert.executeUpdate();
             }
             rs.close();
-            s.close();
+            sql.close();
         } //try
         catch (Exception e) {
             System.out.println("Exception is ;" + e);

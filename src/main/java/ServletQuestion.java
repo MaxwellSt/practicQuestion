@@ -17,7 +17,7 @@ public class ServletQuestion extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String username = (String) request.getAttribute("username");
+        String username = request.getParameter("username");
         System.out.println(username);
         DAO.getInstance().updateUser(username);
 

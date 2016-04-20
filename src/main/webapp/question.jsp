@@ -6,7 +6,7 @@
     <title>Stetsenko</title>
 </head>
 <body>
-<h1><%= request.getSession().getAttribute("question")%></h1>
+<h1><%= request.getAttribute("question")%></h1>
 <form action='ServletQuestion' method='post'>
     <input name='answer' value=''>
     <br><br>
