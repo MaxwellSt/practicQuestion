@@ -32,9 +32,6 @@ public class Servlet extends HttpServlet {
         response.setContentType("text/html");
         String page = "index.jsp";
 
-        //List dataList = DAO.getInstance().getAll("TABLE_NAME");
-
-        //request.setAttribute("data", dataList);
         RequestDispatcher dispatcher = request.getRequestDispatcher(page);
         if (dispatcher != null) {
             dispatcher.forward(request, response);
