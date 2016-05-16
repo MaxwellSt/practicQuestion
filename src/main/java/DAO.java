@@ -3,6 +3,7 @@ import model.Question;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -28,6 +29,8 @@ public class DAO {
         try {
             // Load the database driver
             Class.forName("oracle.jdbc.driver.OracleDriver");
+
+            Locale.setDefault(new Locale("es","ES"));
 
             // Get a Connection to the database
             connection = DriverManager.getConnection("jdbc:oracle:thin:@//localhost:1521/XE", "SYSTEM", "1475963max");
@@ -61,6 +64,8 @@ public class DAO {
         try {
             // Load the database driver
             Class.forName("oracle.jdbc.driver.OracleDriver");
+
+            Locale.setDefault(new Locale("es","ES"));
 
             // Get a Connection to the database
             connection = DriverManager.getConnection("jdbc:oracle:thin:@//localhost:1521/XE", "SYSTEM", "1475963max");
@@ -103,11 +108,13 @@ public class DAO {
             // Load the database driver
             Class.forName("oracle.jdbc.driver.OracleDriver");
 
+            Locale.setDefault(new Locale("es","ES"));
+
             // Get a Connection to the database
             connection = DriverManager.getConnection("jdbc:oracle:thin:@//localhost:1521/XE", "SYSTEM", "1475963max");
 
             PreparedStatement sql = connection.prepareStatement("UPDATE USERS SET MAX_POINTS = " + points + " WHERE NAME = '"
-                    + username + "' and isnull(MAX_POINTS, 0) < " + points);
+                    + username + "' and NVL(MAX_POINTS, 0) < " + points);
             sql.executeUpdate();
 
             sql.close();
@@ -127,6 +134,8 @@ public class DAO {
         try {
             // Load the database driver
             Class.forName("oracle.jdbc.driver.OracleDriver");
+
+            Locale.setDefault(new Locale("es","ES"));
 
             // Get a Connection to the database
             connection = DriverManager.getConnection("jdbc:oracle:thin:@//localhost:1521/XE", "SYSTEM", "1475963max");
